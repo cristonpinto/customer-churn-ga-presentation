@@ -1,1 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction Using Genetic Algorithm - Video Demonstration</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header h2 {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .course-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .course-badge {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .video-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .video-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .info-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card p {
+            color: #7f8c8d;
+            font-size: 0.95em;
+        }
+
+        .results-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .result-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .github-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .github-btn {
+            display: inline-block;
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .github-btn:hover {
+            background: #555;
+            transform: translateY(-2px);
+        }
+
+        .youtube-btn {
+            display: inline-block;
+            background: #ff0000;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .youtube-btn:hover {
+            background: #cc0000;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 30px;
+            padding: 20px;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tech-badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .course-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .video-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, #ffeaa7, #fab1a0);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #e17055;
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin: 5px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1><i class="fas fa-dna"></i> Customer Churn Prediction Using Genetic Algorithm</h1>
+            <h2>Nature Inspired Computing - Feature Selection Implementation</h2>
+            
+            <div class="course-info">
+                <span class="course-badge"><i class="fas fa-university"></i> CS3192 - Nature Inspired Computing</span>
+                <span class="course-badge"><i class="fas fa-calendar"></i> Semester 06</span>
+                <span class="course-badge"><i class="fas fa-graduation-cap"></i> General Sir John Kotelawala Defence University</span>
+            </div>
+
+            <div class="tech-stack">
+                <span class="tech-badge"><i class="fab fa-python"></i> Python</span>
+                <span class="tech-badge"><i class="fas fa-brain"></i> Genetic Algorithm</span>
+                <span class="tech-badge"><i class="fas fa-chart-line"></i> Machine Learning</span>
+                <span class="tech-badge"><i class="fas fa-database"></i> Data Science</span>
+            </div>
+        </div>
+
+        <!-- Video Section -->
+        <div class="video-section">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">
+                <i class="fas fa-video"></i> Video Demonstration
+            </h2>
+            
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/dUfsHMFGocI" 
+                    title="Customer Churn Prediction Using Genetic Algorithm - Video Demonstration"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="highlight">
+                <h3><i class="fas fa-star"></i> Video Highlights</h3>
+                <p>Watch the complete implementation walkthrough including data exploration, genetic algorithm optimization, and comprehensive model evaluation. The demonstration showcases professional-grade code structure with detailed explanations of each component.</p>
+            </div>
+
+            <div class="video-info">
+                <div class="info-card">
+                    <h3><i class="fas fa-clock"></i> Duration</h3>
+                    <p>7-8 minutes comprehensive demonstration</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-code"></i> Coverage</h3>
+                    <p>Complete pipeline from data to results</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-chart-bar"></i> Demonstration</h3>
+                    <p>Live code execution with real results</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-eye"></i> Visibility</h3>
+                    <p>Presenter face visible throughout</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Results Section -->
+        <div class="results-section">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">
+                <i class="fas fa-trophy"></i> Outstanding Implementation Results
+            </h2>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-value">80%</div>
+                    <div class="result-label">Feature Reduction</div>
+                    <small>(30 → 6 features)</small>
+                </div>
+                <div class="result-card">
+                    <div class="result-value">0.57%</div>
+                    <div class="result-label">Accuracy Loss</div>
+                    <small>(99.3% performance retained)</small>
+                </div>
+                <div class="result-card">
+                    <div class="result-value">3.18x</div>
+                    <div class="result-label">Faster Training</div>
+                    <small>(0.035s → 0.011s)</small>
+                </div>
+                <div class="result-card">
+                    <div class="result-value">19</div>
+                    <div class="result-label">GA Generations</div>
+                    <small>(Efficient convergence)</small>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <span class="achievement-badge"><i class="fas fa-medal"></i> Professional Implementation</span>
+                <span class="achievement-badge"><i class="fas fa-bullseye"></i> Outstanding Results</span>
+                <span class="achievement-badge"><i class="fas fa-rocket"></i> Business Value</span>
+            </div>
+        </div>
+
+        <!-- Technical Implementation Section -->
+        <div class="results-section">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">
+                <i class="fas fa-cogs"></i> Technical Implementation Highlights
+            </h2>
+
+            <div class="video-info">
+                <div class="info-card">
+                    <h3><i class="fas fa-database"></i> Dataset Analysis</h3>
+                    <p>7,043 telecom customers with comprehensive feature analysis and 26.5% churn rate identification</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-dna"></i> Genetic Algorithm</h3>
+                    <p>Complete GA implementation with tournament selection, crossover, mutation, and elite preservation</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-brain"></i> Model Training</h3>
+                    <p>Comprehensive comparison: Logistic Regression, Random Forest, SVM with statistical validation</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-chart-line"></i> Performance Analysis</h3>
+                    <p>Multiple metrics evaluation with ROC curves, confusion matrices, and business value analysis</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Links Section -->
+        <div class="github-section">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">
+                <i class="fas fa-link"></i> Project Resources
+            </h2>
+            
+            <p style="margin-bottom: 25px; color: #7f8c8d;">
+                Access the complete implementation, documentation, and resources
+            </p>
+
+            <div>
+                <a href="https://youtu.be/dUfsHMFGocI?si=Js5HeYcineGwMop4" class="youtube-btn" target="_blank">
+                    <i class="fab fa-youtube"></i> Watch on YouTube
+                </a>
+                <a href="https://github.com/yourusername/customer-churn-ga" class="github-btn" target="_blank">
+                    <i class="fab fa-github"></i> View Source Code
+                </a>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h3 style="color: #2c3e50; margin-bottom: 15px;">Project Deliverables</h3>
+                <div class="video-info">
+                    <div class="info-card">
+                        <h3><i class="fas fa-code"></i> Python Implementation</h3>
+                        <p>Complete modular codebase with professional documentation</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-file-pdf"></i> Comprehensive Report</h3>
+                        <p>20-page detailed report with methodology and results</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-video"></i> Video Demonstration</h3>
+                        <p>Professional presentation with face visible throughout</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><i class="fas fa-graduation-cap"></i> CS3192 - Nature Inspired Computing Assignment</p>
+            <p><i class="fas fa-university"></i> General Sir John Kotelawala Defence University</p>
+            <p><i class="fas fa-calendar"></i> September 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scrolling for any internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Add animation to result cards
+            const resultCards = document.querySelectorAll('.result-card');
+            resultCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+                card.style.animation = 'fadeInUp 0.6s ease forwards';
+            });
+        });
+
+        // CSS animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
